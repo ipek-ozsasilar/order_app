@@ -1,0 +1,1 @@
+enum textFieldSize { large, small }
