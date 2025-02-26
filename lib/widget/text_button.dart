@@ -2,6 +2,8 @@ import 'package:cook_order_app/constant/border_radius.dart';
 import 'package:cook_order_app/constant/icon.dart';
 import 'package:cook_order_app/core/navigator_abstract.dart';
 import 'package:cook_order_app/enum/button_icon_state.dart';
+import 'package:cook_order_app/mixin/image_pull_mixin.dart';
+import 'package:cook_order_app/widget/icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_order_app/constant/color.dart';
 import 'package:cook_order_app/constant/size.dart';
@@ -35,8 +37,7 @@ class textButton extends StatelessWidget implements navigatorProcess {
               )
             : Row(
                 children: [
-                  Icon(IconClass.iconInstance.searchIcon,
-                      color: colorClass.colorInstance.blackColor),
+                  IconWidget(iconn:IconClass.iconInstance.searchIcon,color: colorClass.colorInstance.blackColor),
                   Expanded(
                     child: Center(
                       child: thinText(

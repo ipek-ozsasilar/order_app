@@ -8,6 +8,7 @@ import 'package:cook_order_app/enum/text_field_name.dart';
 import 'package:cook_order_app/extension/field_size_extension.dart';
 import 'package:cook_order_app/extension/textfieldname_enum_extension.dart';
 import 'package:cook_order_app/widget/dropdownbutton_widget.dart';
+import 'package:cook_order_app/widget/icon_widget.dart';
 import 'package:cook_order_app/widget/password_animation_button.dart';
 import 'package:cook_order_app/widget/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class textfieldControlClass {
   final ValueNotifier<bool> hasDataNotifier;
   bool visibility = true;
   ValueNotifier<bool>? visibilityNotifier;
+ 
+  
+
 
   textfieldControlClass({
     required this.input,
@@ -67,14 +71,15 @@ class textfieldControlClass {
       return SizedBox.shrink();
     }
   }
+  
 
   bool obsureTextPasswordControlWidget() {
-    if (visibilityNotifier != null) {
-      return input.isPasswordResult ? visibilityNotifier!.value : false;
-    } else {
-      return true;
-    }
+  if (visibilityNotifier!=null) {
+    return input.isPasswordResult ? visibilityNotifier!.value : false;
+  }else{
+    return true;
   }
+}
 
   TextInputFormatter inputFormatterLengthControl() {
     if (input.isNumberResult) {
@@ -114,35 +119,39 @@ class textfieldControlClass {
     if (input.isNumberResult && fieldSize.isFieldSizeLarge) {
       return dropDownButtonWidget();
     } else if (input.isAddressResult && fieldSize.isFieldSizeLarge) {
-      return Icon(
-        IconClass.iconInstance.locationIcon,
+      return IconWidget(
+        iconn:IconClass.iconInstance.locationIcon,
         color: levelColor.levelColorInstance.hintColor,
       );
     } else {
       return null;
+      
     }
   }
 
   Widget? suffixIconControl() {
-    return ValueListenableBuilder<bool>(
+
+
+    if (fieldSize.isFieldSizeLarge) {
+      return ValueListenableBuilder<bool>(
       valueListenable: hasDataNotifier,
       builder: (context, hasDataValue, child) {
-        if (hasDataValue && fieldSize.isFieldSizeLarge) {
+        if (hasDataValue) {
           return passwordAnimationIconButton(
             visibilityNotifier: visibilityNotifier ?? ValueNotifier(true),
             iconn: AnimatedIcons.add_event,
             input: input,
-            control: textfieldControlClass(
-                input: input,
-                fieldSize: fieldSize,
-                text: text,
-                hasDataNotifier: hasDataNotifier),
+            control: textfieldControlClass(input: input, fieldSize: fieldSize, text: text, hasDataNotifier: hasDataNotifier),
           );
-        } else {
-          return SizedBox.shrink();
+        }else{
+          return SizedBox();
         }
       },
     );
+    }else{
+      return null;
+    }
+    
   }
 
   InputBorder borderControl() {
