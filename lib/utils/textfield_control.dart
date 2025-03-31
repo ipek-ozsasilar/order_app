@@ -1,10 +1,11 @@
-import 'package:cook_order_app/constant/border_radius.dart';
 import 'package:cook_order_app/constant/color.dart';
 import 'package:cook_order_app/constant/icon.dart';
 import 'package:cook_order_app/constant/padding.dart';
 import 'package:cook_order_app/constant/size.dart';
+import 'package:cook_order_app/constant/styles/text_input_border.dart';
 import 'package:cook_order_app/enum/field_size_enum.dart';
 import 'package:cook_order_app/enum/text_field_name.dart';
+import 'package:cook_order_app/enum/text_style_font.dart';
 import 'package:cook_order_app/extension/field_size_extension.dart';
 import 'package:cook_order_app/extension/textfieldname_enum_extension.dart';
 import 'package:cook_order_app/widget/dropdownbutton_widget.dart';
@@ -19,13 +20,18 @@ class textfieldControlClass {
   final textFieldSize fieldSize;
   String? text = "";
   String? countEmptyText = "";
-  BorderSide side = BorderSide.none;
+  int phoneLenght=10;
+  int verifyCodeLenght=1;
+  int emailLenght=150;
   final ValueNotifier<bool> hasDataNotifier;
-  bool visibility = true;
   ValueNotifier<bool>? visibilityNotifier;
- 
-  
-
+  Pattern emailRegExp=RegExp(r'[a-zA-Z0-9@\._\-\+]');
+  Pattern passwordRegExp=RegExp(r'[a-zA-Z0-9]');
+  TextInputType numberInputType=TextInputType.number;
+  TextInputType emailInputType=TextInputType.emailAddress;
+  TextInputType addressInputType=TextInputType.streetAddress;
+  TextInputType passwordInputType=TextInputType.visiblePassword;
+  BorderClass borderInstance=BorderClass();
 
   textfieldControlClass({
     required this.input,
@@ -36,137 +42,110 @@ class textfieldControlClass {
   }) : visibilityNotifier = visibilityNotifier ?? ValueNotifier<bool>(true);
 
   double widthControlFun() {
-    if (fieldSize.isFieldSizeLarge) {
-      return sizeClass.sizeInstance.buttonWidht;
-    } else {
-      return sizeClass.sizeInstance.nunitoTextSize;
-    }
+    return fieldSize.isFieldSizeLarge
+        ? sizeClass.sizeInstance.buttonWidht
+        : sizeClass.sizeInstance.nunitoTextSize;
   }
 
   double heightControlFun() {
-    if (input.isNumberResult && fieldSize.isFieldSizeLarge) {
-      return sizeClass.sizeInstance.appbarToolbar;
-    } else if (input.isNumberResult && fieldSize.isFieldSizeSmall) {
-      return sizeClass.sizeInstance.nunitoTextSize;
-    } else {
-      return sizeClass.sizeInstance.normalTextFieldHeight;
-    }
+    return input.isNumberResult
+        ? (fieldSize.isFieldSizeLarge
+            ? sizeClass.sizeInstance.appbarToolbar
+            : sizeClass.sizeInstance.nunitoTextSize)
+        : sizeClass.sizeInstance.normalTextFieldHeight;
   }
 
   EdgeInsets textfieldInsidePaddingControlFun() {
-    if (input.isNumberResult) {
-      return fieldSize.isFieldSizeLarge
-          ? paddingClass.paddingInstance.phoneNumberFieldPadding
-          : paddingClass.paddingInstance.googleButtonTopPadding +
-              paddingClass.paddingInstance.indicatorHorizantolSpace;
-    }
-    return paddingClass.paddingInstance.zeroPadding;
+    return input.isNumberResult
+        ? (fieldSize.isFieldSizeLarge
+            ? paddingClass.paddingInstance.phoneNumberFieldPadding
+            : paddingClass.paddingInstance.googleButtonTopPadding +
+                paddingClass.paddingInstance.indicatorHorizantolSpace)
+        : paddingClass.paddingInstance.zeroPadding;
   }
 
   Widget phoneNumberTextControl() {
-    if (input.isNumberResult && fieldSize.isFieldSizeLarge) {
-      return thinText(
-          color: colorClass.colorInstance.blueGreyColor, text: "Phone Number");
-    } else {
-      return SizedBox.shrink();
-    }
+    return (input.isNumberResult && fieldSize.isFieldSizeLarge)
+        ? textWidget(
+            color: colorClass.colorInstance.blueGreyColor,
+            text: "Phone Number",
+            textStyleWeight: TextStyleWeight.thin,
+          )
+        : SizedBox.shrink();
   }
-  
 
   bool obsureTextPasswordControlWidget() {
-  if (visibilityNotifier!=null) {
-    return input.isPasswordResult ? visibilityNotifier!.value : false;
-  }else{
-    return true;
+    return visibilityNotifier != null
+        ? (input.isPasswordResult ? visibilityNotifier!.value :!(visibilityNotifier!.value ) )
+        : visibilityNotifier!.value ;
   }
-}
 
   TextInputFormatter inputFormatterLengthControl() {
-    if (input.isNumberResult) {
-      return fieldSize.isFieldSizeLarge
-          ? LengthLimitingTextInputFormatter(10)
-          : LengthLimitingTextInputFormatter(1);
-    } else {
-      return LengthLimitingTextInputFormatter(20);
-    }
+    return input.isNumberResult
+        ? LengthLimitingTextInputFormatter(fieldSize.isFieldSizeLarge ? phoneLenght : verifyCodeLenght)
+        : LengthLimitingTextInputFormatter(emailLenght);
   }
 
   TextInputFormatter inputFormatterControl() {
-    if (input.isNumberResult) {
-      return FilteringTextInputFormatter.digitsOnly;
-    } else {
-      return FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._-]'));
-    }
+    return input.isNumberResult
+        ? FilteringTextInputFormatter.digitsOnly
+        : input.isEmailResult
+            ? FilteringTextInputFormatter.allow(emailRegExp)
+            : FilteringTextInputFormatter.allow(passwordRegExp);
   }
 
   TextInputType keyboardCheckFun() {
-    if (input.isNumberResult) {
-      return TextInputType.number;
-    } else if (input.isEmailResult) {
-      return TextInputType.emailAddress;
-    } else if (input.isAddressResult) {
-      return TextInputType.streetAddress;
-    } else {
-      return TextInputType.visiblePassword;
-    }
+    return input.isNumberResult
+        ? numberInputType
+        : input.isEmailResult
+            ? emailInputType
+            : input.isAddressResult
+                ? addressInputType
+                : passwordInputType;
   }
 
   String? hintTextControl() {
-    return fieldSize.isFieldSizeLarge ? text : countEmptyText ?? "";
+    return fieldSize.isFieldSizeLarge ? text: countEmptyText;
   }
 
   Widget? prefixIconControl() {
-    if (input.isNumberResult && fieldSize.isFieldSizeLarge) {
-      return dropDownButtonWidget();
-    } else if (input.isAddressResult && fieldSize.isFieldSizeLarge) {
-      return IconWidget(
-        iconn:IconClass.iconInstance.locationIcon,
-        color: levelColor.levelColorInstance.hintColor,
-      );
-    } else {
-      return null;
-      
-    }
+    return (input.isNumberResult && fieldSize.isFieldSizeLarge)
+        ? dropDownButtonWidget()
+        : (input.isAddressResult && fieldSize.isFieldSizeLarge)
+            ? IconWidget(
+                iconn: IconClass.iconInstance.locationIcon,
+                color: levelColor.levelColorInstance.hintColor,
+              )
+            : null;
   }
 
   Widget? suffixIconControl() {
-
-
-    if (fieldSize.isFieldSizeLarge) {
-      return ValueListenableBuilder<bool>(
-      valueListenable: hasDataNotifier,
-      builder: (context, hasDataValue, child) {
-        if (hasDataValue) {
-          return passwordAnimationIconButton(
-            visibilityNotifier: visibilityNotifier ?? ValueNotifier(true),
-            iconn: AnimatedIcons.add_event,
-            input: input,
-            control: textfieldControlClass(input: input, fieldSize: fieldSize, text: text, hasDataNotifier: hasDataNotifier),
-          );
-        }else{
-          return SizedBox();
-        }
-      },
-    );
-    }else{
-      return null;
-    }
-    
+    return fieldSize.isFieldSizeLarge
+        ? ValueListenableBuilder<bool>(
+            valueListenable: hasDataNotifier,
+            builder: (context, hasDataValue, child) {
+              return hasDataValue
+                  ? passwordAnimationIconButton(
+                      visibilityNotifier:
+                          visibilityNotifier ?? ValueNotifier(true),
+                      iconn: AnimatedIcons.add_event,
+                      input: input,
+                      control: textfieldControlClass(
+                          input: input,
+                          fieldSize: fieldSize,
+                          text: text,
+                          hasDataNotifier: hasDataNotifier),
+                    )
+                  : emptyWidget();
+            },
+          )
+        : null;
   }
+SizedBox emptyWidget() => SizedBox();
 
   InputBorder borderControl() {
-    if (fieldSize.isFieldSizeLarge) {
-      return OutlineInputBorder(
-        borderRadius: borderRadiusClass.radiusInstance.textFieldRadius,
-        borderSide: side,
-      );
-    } else {
-      return UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: colorClass.colorInstance.blackColor,
-          width: 1.0,
-        ),
-      );
-    }
+    return fieldSize.isFieldSizeLarge
+        ? borderInstance.outlineBorder()
+        : borderInstance.underlineBorder();
   }
 }

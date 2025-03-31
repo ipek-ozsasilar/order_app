@@ -20,6 +20,7 @@ class sizeClass {
   double flagContainerSizes=25;
   double stackHeight=320;
   double mapTopPositioned=105;
+  double borderSideWidth=1.0;
   sizeClass._();
   static sizeClass sizeInstance=sizeClass._();
 

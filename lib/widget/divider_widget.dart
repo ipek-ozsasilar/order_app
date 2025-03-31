@@ -1,5 +1,6 @@
 import 'package:cook_order_app/constant/color.dart';
 import 'package:cook_order_app/constant/padding.dart';
+import 'package:cook_order_app/enum/text_style_font.dart';
 import 'package:cook_order_app/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class dividerWidget extends StatelessWidget {
         dividerFun(),
         Padding(
           padding:paddingClass.paddingInstance.indicatorHorizantolSpace,
-          child: thinText(color: levelColor.levelColorInstance.dividerOrColor, text: "OR"),
+          child: textWidget(color: levelColor.levelColorInstance.dividerOrColor, text: "OR",textStyleWeight: TextStyleWeight.thin),
         ),
         dividerFun(),
       ],

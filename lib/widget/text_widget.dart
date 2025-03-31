@@ -1,51 +1,31 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cook_order_app/constant/color.dart';
-import 'package:cook_order_app/widget/page_view.dart';
+import 'package:cook_order_app/enum/text_style_font.dart';
 import 'package:flutter/material.dart';
 
-class thinText extends StatelessWidget {
-TextAlign textCenterAlign=TextAlign.center;
-Color? color;
-String text;
-  thinText({
-    Key? key,
-    required this.color,
-
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-   text,
-    textAlign: textCenterAlign,
-    style: TextStyle(
-      color: color,
-                
-    ),
-    );
-  }
-}
-
-class weightText extends StatelessWidget {
+class textWidget extends StatelessWidget {
+  TextStyleWeight textStyleWeight;
+  Color? color;
   String text;
-  double fontSize=30;
-  FontWeight textWeight=FontWeight.w500;
-  weightText({
+  double fontSize = 30;
+  FontWeight textWeight = FontWeight.w500;
+  TextAlign textCenterAlign = TextAlign.center;
+  
+  textWidget({
     Key? key,
+     this.color,
     required this.text,
+    required this.textStyleWeight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign:textStyleWeight==TextStyleWeight.thin? textCenterAlign:null,
       style: TextStyle(
-        fontWeight: textWeight,
-        fontSize: fontSize,
+        color:textStyleWeight==TextStyleWeight.thin? color: null,
+        fontSize: textStyleWeight==TextStyleWeight.thin? null:fontSize,
+        fontWeight: textStyleWeight==TextStyleWeight.thin? null: textWeight,
       ),
-      );
+    );
   }
 }
-
-

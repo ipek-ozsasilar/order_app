@@ -1,5 +1,5 @@
 import 'package:cook_order_app/constant/exception_message.dart';
-import 'package:cook_order_app/verify_number_page.dart';
+import 'package:cook_order_app/views/verify_number_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -6,7 +6,6 @@ import 'package:cook_order_app/enum/field_size_enum.dart';
 import 'package:cook_order_app/enum/text_field_name.dart';
 import 'package:cook_order_app/utils/textfield_control.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 //key veya context ıle erısılebılır mı valıdatore
 //context.findAncestorStateOfType<_MyFormState>();
@@ -15,12 +14,15 @@ import 'package:provider/provider.dart';
 //contaıner control fıeld arası provıder
 //routing
 //testing
+//textbutton onpressed ve pagelerını hallet ? kaldır onpresseddan
+//textfıeldın controllerı ? yaptın duzenle
 
 class textFieldWidget extends StatefulWidget {
   textFieldInputName input;
   textFieldSize fieldSize;
   AnimatedIconData iconn;
   String? text = "";
+  TextEditingController? controller;
 
   textFieldWidget({
     Key? key,
@@ -28,6 +30,7 @@ class textFieldWidget extends StatefulWidget {
     required this.iconn,
     required this.fieldSize,
     this.text,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -37,21 +40,21 @@ class textFieldWidget extends StatefulWidget {
 class _textFieldWidgetState extends State<textFieldWidget> {
   bool filledSelection = true;
   BorderSide side = BorderSide.none;
-  late TextEditingController _controller;
   late textfieldControlClass controlInstance;
   String? counterText = "";
   CrossAxisAlignment align = CrossAxisAlignment.start;
   late final ValueNotifier<bool> hasDataNotifier = ValueNotifier<bool>(false);
+  TextInputAction nextAction=TextInputAction.next;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
     controlInstance = textfieldControlClass(
         input: widget.input,
         fieldSize: widget.fieldSize,
         text: widget.text,
-        hasDataNotifier: hasDataNotifier);
+        hasDataNotifier: hasDataNotifier
+        );
   }
 
   void textFieldOnChanged(String? value) {
@@ -102,7 +105,8 @@ class _textFieldWidgetState extends State<textFieldWidget> {
                     keyboardType: controlInstance.keyboardCheckFun(),
                     obscureText:
                         controlInstance.obsureTextPasswordControlWidget(),
-                    controller: _controller,
+                    controller: widget.controller,
+                    textInputAction:nextAction,
                     inputFormatters: [
                       controlInstance.inputFormatterLengthControl(),
                       controlInstance.inputFormatterControl(),
@@ -116,6 +120,8 @@ class _textFieldWidgetState extends State<textFieldWidget> {
       ),
     );
   }
+
+
 
   BoxDecoration outContainerDecoration() {
     return BoxDecoration(

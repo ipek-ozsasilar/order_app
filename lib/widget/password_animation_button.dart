@@ -21,17 +21,14 @@ class passwordAnimationIconButton extends StatefulWidget {
       _passwordAnimationIconButtonState();
 }
 
-class _passwordAnimationIconButtonState
-    extends State<passwordAnimationIconButton> with TickerProviderStateMixin {
+class _passwordAnimationIconButtonState extends State<passwordAnimationIconButton> with TickerProviderStateMixin {
   final ValueNotifier<bool> visibilityNotifier = ValueNotifier<bool>(true);
-  bool visibility = true;
   late AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-        vsync: this, duration: durationClass.secondTwoDuration);
+    animationController = AnimationController(vsync: this, duration: durationClass.secondTwoDuration);
   }
 
   @override
@@ -39,19 +36,23 @@ class _passwordAnimationIconButtonState
     return IconButton(
         onPressed: widget.input.isPasswordResult
             ? () {
-                visibility
+                widget.visibilityNotifier.value
                     ? animationController.animateTo(1)
                     : animationController.animateTo(0);
                 setState(() {
-                  visibility = !visibility;
+                  widget.visibilityNotifier.value = !(widget.visibilityNotifier.value);
                 });
 
-                widget.visibilityNotifier.value = visibility;
+              
               }
             : null,
-        icon: AnimatedIcon(
-          icon: widget.iconn,
-          progress: animationController,
-        ));
+        icon: animationIcon());
+  }
+
+  AnimatedIcon animationIcon() {
+    return AnimatedIcon(
+        icon: widget.iconn,
+        progress: animationController,
+      );
   }
 }

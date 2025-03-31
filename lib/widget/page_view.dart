@@ -1,6 +1,7 @@
 import 'package:cook_order_app/constant/color.dart';
 import 'package:cook_order_app/constant/padding.dart';
 import 'package:cook_order_app/constant/size.dart';
+import 'package:cook_order_app/enum/text_style_font.dart';
 import 'package:cook_order_app/enum/url_names_enum.dart';
 import 'package:cook_order_app/widget/cook_stack.dart';
 import 'package:cook_order_app/widget/stack_widget.dart';
@@ -40,13 +41,16 @@ class _pageViewWidgetState extends State<pageViewWidget> {
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.onlyPadding,
-                      child: weightText(text: "Diverse & sparkling food"),
+                      child: textWidget(text: "Diverse & sparkling food",textStyleWeight: TextStyleWeight.bold),
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.symetricHorizontal,
-                      child: thinText(
+                      child: textWidget(
                           text:
-                              "We use the best local ingredients to create fresh and delicious food and drinks.",color:colorClass.colorInstance.blueGreyColor,),
+                              "We use the best local ingredients to create fresh and delicious food and drinks.",
+                              color:colorClass.colorInstance.blueGreyColor,
+                              textStyleWeight: TextStyleWeight.thin,
+                              ),
                     ),
                   ],
                 ),
@@ -62,13 +66,16 @@ class _pageViewWidgetState extends State<pageViewWidget> {
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.onlyPadding,
-                      child: weightText(text: "Free shipping on all orders"),
+                      child: textWidget(text: "Free shipping on all orders",textStyleWeight: TextStyleWeight.bold),
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.symetricHorizontal,
-                      child: thinText(
+                      child: textWidget(
                           text:
-                              "Free shipping on the primary order whilst the usage of CaPay fee method.",color:colorClass.colorInstance.blueGreyColor),
+                              "Free shipping on the primary order whilst the usage of CaPay fee method.",
+                              color:colorClass.colorInstance.blueGreyColor,
+                              textStyleWeight: TextStyleWeight.thin,
+                              ),
                     ),
                   ],
                 ),
@@ -84,13 +91,16 @@ class _pageViewWidgetState extends State<pageViewWidget> {
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.onlyPadding,
-                      child: weightText(text: "+24K Restaurants"),
+                      child: textWidget(text: "+24K Restaurants",textStyleWeight: TextStyleWeight.bold),
                     ),
                     Padding(
                       padding: paddingClass.paddingInstance.symetricHorizontal,
-                      child: thinText(
+                      child: textWidget(
                           text:
-                              "Easily find your favorite food and have it delivered in record time.",color:colorClass.colorInstance.blueGreyColor),
+                              "Easily find your favorite food and have it delivered in record time.",
+                              color:colorClass.colorInstance.blueGreyColor,
+                              textStyleWeight: TextStyleWeight.thin
+                              ),
                     ),
                   ],
                 ),

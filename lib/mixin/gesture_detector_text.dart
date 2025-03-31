@@ -1,5 +1,5 @@
 import 'package:cook_order_app/constant/color.dart';
-import 'package:cook_order_app/create_account_page.dart';
+import 'package:cook_order_app/views/create_account_page.dart';
 import 'package:cook_order_app/widget/text_button.dart';
 import 'package:flutter/material.dart';
 
